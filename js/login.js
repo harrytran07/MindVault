@@ -1,44 +1,84 @@
-const loginEmailEl = document.getElementById('login-email');
-const loginPassEl  = document.getElementById('login-password');
-const loginBtn     = document.getElementById('btn-login');
-const googleBtn    = document.getElementById('btn-google');
-const loginStatus  = document.getElementById('login-status');
+// =======================
+// 🔹 Import Firebase SDK từ file config
+// =======================
+import { auth, db } from "./firebase-config";
+import { signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider, signOut } from "firebase/auth";
+import { doc, setDoc } from "firebase/firestore";
 
+// =======================
+// 🔹 Lấy phần tử HTML
+// =======================
+const loginEmailEl = document.getElementById("login-email");
+const loginPassEl  = document.getElementById("login-password");
+const loginBtn     = document.getElementById("btn-login");
+const googleBtn    = document.getElementById("btn-google");
+const loginStatus  = document.getElementById("login-status");
+
+// =======================
+// 🔹 Hàm hiển thị trạng thái
+// =======================
 function showLoginStatus(msg, isError = false) {
   loginStatus.innerText = msg;
-  loginStatus.style.color = isError ? 'crimson' : 'green';
+  loginStatus.style.color = isError ? "crimson" : "green";
 }
 
-loginBtn.addEventListener('click', async () => {
+// =======================
+// 🔹 Đăng nhập bằng email + password
+// =======================
+loginBtn.addEventListener("click", async () => {
   const email = loginEmailEl.value.trim();
   const password = loginPassEl.value;
 
-  // Kiểm tra email
-  if (!email.includes('@')) {
+  if (!email.includes("@")) {
     showLoginStatus('Email phải có ký tự "@"', true);
     return;
   }
-   try {
-    showLoginStatus('Đang đăng nhập...');
-    const userCredential = await auth.signInWithEmailAndPassword(email, password);
+
+  try {
+    showLoginStatus("Đang đăng nhập...");
+    const userCredential = await signInWithEmailAndPassword(auth, email, password);
     const user = userCredential.user;
-    localStorage.setItem('user-email', user.email);
-    showLoginStatus('Đăng nhập thành công!', false);
-    setTimeout(()=> window.location.href = 'index.html', 700);
+
+    // 🔹 Kiểm tra xác thực email
+    if (!user.emailVerified) {
+      showLoginStatus("Vui lòng xác thực email trước khi đăng nhập.", true);
+      await signOut(auth);
+      return;
+    }
+
+    // ✅ Đăng nhập thành công
+    localStorage.setItem("user-email", user.email);
+    showLoginStatus("Đăng nhập thành công!", false);
+
+    // 🔹 Lưu log đăng nhập
+    await setDoc(doc(db, "userLogins", user.uid), {
+      lastLogin: new Date().toISOString(),
+      email: user.email
+    });
+
+    // Chuyển hướng
+    setTimeout(() => window.location.href = "index.html", 800);
+
   } catch (err) {
-    showLoginStatus(err.message || 'Lỗi đăng nhập', true);
+    showLoginStatus(err.message || "Lỗi đăng nhập", true);
   }
 });
 
-googleBtn.addEventListener('click', async () => {
+// =======================
+// 🔹 Đăng nhập bằng Google
+// =======================
+googleBtn.addEventListener("click", async () => {
   try {
-    showLoginStatus('Mở Google...');
-    const provider = new firebase.auth.GoogleAuthProvider();
-    const result = await auth.signInWithPopup(provider);
+    showLoginStatus("Đang mở đăng nhập Google...");
+    const provider = new GoogleAuthProvider();
+    const result = await signInWithPopup(auth, provider);
     const user = result.user;
-    localStorage.setItem('user-email', user.email);
-    window.location.href = 'index.html';
+
+    localStorage.setItem("user-email", user.email);
+    showLoginStatus("Đăng nhập bằng Google thành công!", false);
+
+    window.location.href = "index.html";
   } catch (err) {
-    showLoginStatus(err.message || 'Lỗi Google login', true);
+    showLoginStatus(err.message || "Lỗi đăng nhập Google", true);
   }
 });
