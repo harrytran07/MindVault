@@ -1,3 +1,5 @@
+import { initializeApp } from "firebase/app";
+
 const firebaseConfig = {
   apiKey: "AIzaSyDU06DJ2JGn0O1zD4iF1dt92X2eQpd5mCc",
   authDomain: "mindvault-2a030.firebaseapp.com",
@@ -8,7 +10,8 @@ const firebaseConfig = {
 };
 
 // Khởi tạo Firebase App
-firebase.initializeApp(firebaseConfig);
+const app = initializeApp(firebaseConfig);
+
 
 // Khởi tạo dịch vụ Auth để dùng trong login.js / signup.js
-const auth = firebase.auth();
+export default app;
