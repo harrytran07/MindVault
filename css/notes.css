@@ -1,0 +1,56 @@
+/* notes.css - phối hợp với main.css */
+
+.notes-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.notes-header h1 {
+  font-size: 1.8rem;
+  color: var(--secondary);
+}
+
+.notes-list {
+  display: grid;
+  gap: 1rem;
+}
+
+.note-card {
+  position: relative;
+}
+
+.note-card h3 {
+  margin-bottom: 0.5rem;
+  color: var(--primary);
+}
+
+.note-card p {
+  color: var(--gray);
+  line-height: 1.5;
+}
+
+.note-card::after {
+  content: "⋮";
+  position: absolute;
+  top: 15px;
+  right: 20px;
+  color: var(--gray);
+  font-weight: bold;
+  cursor: pointer;
+}
+
+#addNoteBtn {
+  background-color: var(--primary);
+  color: var(--white);
+  padding: 0.6rem 1rem;
+  border: none;
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+#addNoteBtn:hover {
+  background-color: #005fcc;
+}
