@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MindVault - Ghi chú</title>
+  <link rel="stylesheet" href="./css/main.css">
+  <link rel="stylesheet" href="./css/notes.css">
+</head>
+<body>
+  <header>
+    <nav class="navbar">
+      <div class="logo">🧠 MindVault</div>
+      <a href="dashboard.html" class="btn">Quay lại</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="notes-header">
+      <h1>Ghi chú của bạn</h1>
+      <button id="addNoteBtn" class="btn">+ Tạo ghi chú mới</button>
+    </section>
+
+    <section class="notes-list">
+      <div class="note-card">
+        <h3>Ghi chú mẫu</h3>
+        <p>Đây là nội dung ghi chú ví dụ. Sau này anh có thể chỉnh sửa hoặc xóa.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 MindVault</p>
+  </footer>
+  <script type="module" src="./js/firebase-config.js"></script>
+  <script type="module" src="./js/notes.js"></script>
+</body>
+</html>
