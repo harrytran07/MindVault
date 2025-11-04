@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MindVault - Bảng điều khiển</title>
+  <link rel="stylesheet" href="./css/main.css">
+  <link rel="stylesheet" href="./css/dashboard.css">
+</head>
+<body>
+  <header>
+    <nav class="navbar">
+      <div class="logo">🧠 MindVault</div>
+      <div class="user-menu">
+        <a href="profile.html" class="btn">Hồ sơ</a>
+        <a href="index.html" class="btn btn-outline">Đăng xuất</a>
+      </div>
+    </nav>
+  </header>
+
+  <aside class="sidebar">
+    <ul>
+      <li><a href="dashboard.html" class="active">🏠 Bảng điều khiển</a></li>
+      <li><a href="notes.html">📝 Ghi chú</a></li>
+      <li><a href="calendar.html">📅 Lịch biểu</a></li>
+      <li><a href="profile.html">👤 Hồ sơ</a></li>
+    </ul>
+  </aside>
+
+  <main>
+    <section class="welcome">
+      <h1>Xin chào, <span id="userName">Người dùng</span>!</h1>
+      <p>Hôm nay là <span id="today"></span>. Hãy xem bạn có gì cần hoàn thành nhé 🌟</p>
+    </section>
+
+    <section class="overview">
+      <div class="card">
+        <h3>Công việc hôm nay</h3>
+        <p>0 nhiệm vụ</p>
+      </div>
+      <div class="card">
+        <h3>Ghi chú gần đây</h3>
+        <p>0 ghi chú</p>
+      </div>
+      <div class="card">
+        <h3>Nhắc việc sắp tới</h3>
+        <p>0 lịch hẹn</p>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 MindVault. Ghi nhớ – Sắp xếp – Tập trung.</p>
+  </footer>
+  <script type="module" src="./js/firebase-config.js"></script>
+  <script type="module" src="./js/dashboard.js"></script>
+</body>
+</html>
