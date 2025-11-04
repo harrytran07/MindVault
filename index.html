@@ -3,24 +3,23 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Note App</title>
+  <title>MindVault</title>
   <link rel="stylesheet" href="./css/main.css">
 </head>
 <body>
   <header>
     <nav>
-      <li><a href="index.html" class="brand">📒 Note App</a></li>
-      <div class="nav-right">
-        <a href="login.html" class="btn">Đăng nhập</a>
-        <a href="signup.html" class="btn btn-outline">Đăng ký</a>
+      <a href="index.html" class="brand">🧠 MindVault</a>
+      <div class="nav-right" id="nav-links">
+        <!-- JS sẽ tự thay nội dung phần này -->
       </div>
     </nav>
   </header>
 
   <main>
     <div class="welcome-card">
-      <h1>Chào mừng đến với Note App</h1>
-      <p>Quản lý công việc và ghi chú của bạn thật dễ dàng ✨</p>
+      <h1>Chào mừng đến với MindVault</h1>
+      <p>Lên lịch – Ghi chú – Nhắc nhở – Tất cả gói gọn trong một nơi ✨</p>
       <div class="actions">
         <a href="login.html" class="btn">Bắt đầu ngay</a>
       </div>
@@ -28,9 +27,47 @@
   </main>
 
   <footer>
-    <p>&copy; 2025 Công Ty Note</p>
+    <p>&copy; 2025 MindVault</p>
   </footer>
+
+  <!-- Firebase -->
   <script type="module" src="./js/firebase-config.js"></script>
 
+  <!-- Kiểm tra đăng nhập và đổi header -->
+  <script type="module">
+    import { getAuth, onAuthStateChanged, signOut } 
+      from "https://www.gstatic.com/firebasejs/10.13.0/firebase-auth.js";
+
+    const auth = getAuth();
+    const navLinks = document.getElementById("nav-links");
+
+    // Lắng nghe trạng thái người dùng
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        // ✅ Nếu đã đăng nhập
+        navLinks.innerHTML = `
+          <a href="dashboard.html" class="btn">Dashboard</a>
+          <a href="notes.html" class="btn">Notes</a>
+          <a href="calendar.html" class="btn">Calendar</a>
+          <a href="profile.html" class="btn">Profile</a>
+          <a href="#" id="logout-btn" class="btn btn-outline">Đăng xuất</a>
+        `;
+
+        // Sự kiện đăng xuất
+        const logoutBtn = document.getElementById("logout-btn");
+        logoutBtn.addEventListener("click", async () => {
+          await signOut(auth);
+          window.location.reload();
+        });
+
+      } else {
+        // ❌ Nếu chưa đăng nhập
+        navLinks.innerHTML = `
+          <a href="login.html" class="btn">Đăng nhập</a>
+          <a href="signup.html" class="btn btn-outline">Đăng ký</a>
+        `;
+      }
+    });
+  </script>
 </body>
 </html>
